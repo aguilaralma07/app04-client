@@ -6,7 +6,30 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Hello world</h1>
+    <h1>Hello Node js</h1>
+
+    <h2>Lista de tacos</h2>
+    <div id="taquitos-container"></div>
+
+    <br>
+
+    <h2>Agregar taco</h2>
+    <div id="taco-form">
+        <div>
+            Nombre del taco: <input type="text" name="" id="taco-name"/>
+        </div>
+        <div>
+            Cantidad: <input type="number" name="" id="taco-quantity"/>
+        </div>
+        <div>
+            ¿Es picante? (Si/No):<label for="option-spyciness"></label>
+            <select id="option-spyciness" name="option-spyciness">
+                <option value="si">Si</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+        <button id="btn-post-taco">Crear taco</button>
+    </div>
 </body>
 <script src="app.js"></script>
 </html>

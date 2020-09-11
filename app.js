@@ -1,45 +1,78 @@
-const baseUrl = 'http://localhost:5000/';
+const baseUrl = 'http://localhost:5000';
+const taquitosContainer = document.getElementById('taquitos-container');
 
-const GetTaquitos = ()=>
-{
+const btnPostTaco = document.getElementById('btn-post-taco');
+
+const tacoForm = {
+    name: document.getElementById('taco-name'),
+    quantity: document.getElementById('taco-quantity'),
+    pica: document.getElementById('option-spyciness')
+}
+
+btnPostTaco.onclick = ()=>{
+    const taco = {
+        name: tacoForm.name.value,
+        quantity: tacoForm.quantity.value,
+        pica: tacoForm.pica.value
+    }
+
+    AddTaquito(taco);
+    //console.log(taco);
+};
+
+const GetTaquitos = ()=>{
     const url = baseUrl;
     fetch(url)
     .then(data => data.json())
-    .then(tacos => console.log(tacos));
+    .then(tacos => {
+        taquitosContainer.innerHTML = '';
+        tacos.forEach(taco => {
+            const tacoElement = document.createElement('div');
+            const tacoName = document.createElement('h3');
+            const tacoQuantity = document.createElement('div');
+            const tacoSpyciness = document.createElement('div');
+
+            const {name, quantity, pica} = taco;
+
+            tacoQuantity.innerHTML = `cantidad: ${quantity}`;
+            tacoSpyciness.innerHTML = `¿Es picante?: ${pica}`;
+            tacoName.innerHTML = name;
+            tacoElement.appendChild(tacoName);
+            tacoElement.appendChild(tacoQuantity);
+            tacoElement.appendChild(tacoSpyciness);
+
+            taquitosContainer.appendChild(tacoElement);
+        });
+    });
 };
 
-const GetTaquito = id =>
-{
-    const url = `${baseUrl}${id}`;
+const GetTaquito = id =>{
+    const url = `${baseUrl}/${id}`;
     fetch(url)
     .then(data => data.json())
-    .then(tacos => console.log(tacos));
+    .then(taco => {
+        
+    });
 };
 
-const AddTaquito = taco =>
-{
+const AddTaquito = taco =>{
     const url = baseUrl;
-    fetch(url, 
-    {
+    fetch(url, {
         method: 'POST',
         body: JSON.stringify(taco),
-        headers: 
-        {
+        headers: {
             'Content-Type': 'application/json'
         }
     }).then(data => data.json())
-    .then(taco => console.log(taco));
+    .then(taco => GetTaquitos());
 };
 
-const UpdateTaquito = (id, data) =>
-{
-    const url = `${baseUrl}${id}`;
-    fetch(url, 
-    {
+const UpdateTaquito = (id, data) =>{
+    const url = `${baseUrl}/${id}`;
+    fetch(url, {
         method: 'PUT',
         body: JSON.stringify(data),
-        headers: 
-        {
+        headers: {
             'Content-Type': 'application/json'
         }
     })
@@ -47,22 +80,25 @@ const UpdateTaquito = (id, data) =>
     .then(taco => console.log(taco));
 };
 
-// GetTaquitos();
-// GetTaquito(2);
+GetTaquitos();
 
-// const showChanges = async ()=>
-// {
-//     await AddTaquito({
-//         name: 'canasta',
-//         quantity: 3,
-//         pica: 'si'
-//     }); 
-//     GetTaquitos();
-// }
-// showChanges();
+/*GetTaquitos();
+GetTaquito(2);
 
-UpdateTaquito(1, {
+const showChanges = async ()=>{
+    await AddTaquito({
+        name: 'canasta',
+        quantity: 3,
+        pica: 'si'
+    });
+    
+    GetTaquitos();
+}
+
+showChanges();*/
+
+/*UpdateTaquito(1, {
     name: 'costillita',
     quantity: 6,
     pica: 'no'
-});
+});*/
